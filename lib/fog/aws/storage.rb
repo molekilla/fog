@@ -28,6 +28,7 @@ module Fog
       request :delete_object
       request :get_bucket
       request :get_bucket_acl
+      request :get_bucket_cors
       request :get_bucket_lifecycle
       request :get_bucket_location
       request :get_bucket_logging
@@ -338,6 +339,7 @@ DATA
           for key in (params[:query] || {}).keys.sort
             if %w{
               acl
+              cors
               lifecycle
               location
               logging

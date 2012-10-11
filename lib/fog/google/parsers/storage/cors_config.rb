@@ -6,22 +6,25 @@ module Fog
         class CORSConfig < Fog::Parsers::Base
 
           def reset
-            @grant = { 'Grantee' => {} }
             @response = { 'CorsConfig' => {} }
           end
 
           def end_element(name)
             case name
             when 'Cors'
-              @response[name] = {}
+              @response['CorsConfig'][name] = {}
             when 'Origins'
-              @response['Cors'][name] = value
+              @response['CorsConfig']['Cors'][name] = []
+            when 'Origin'
+              @response['CorsConfig']['Cors']['Origins'] << { 'Origin' => value }
             when 'Methods'
-              @response['Cors'][name] = []
+              @response['CorsConfig']['Cors'][name] = []
             when 'Method'
-              @response['Cors']['Methods'] << value
+              @response['CorsConfig']['Cors']['Methods'] << { 'Method' => value }
             when 'ResponseHeaders'
-              @response['Cors'][name] = value
+              @response['CorsConfig']['Cors'][name] = []
+            when 'ResponseHeader'
+              @response['CorsConfig']['Cors']['ResponseHeaders'] << { 'ResponseHeader' => value }
             end
           end
 
