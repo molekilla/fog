@@ -31,6 +31,7 @@ module Fog
       request :get_bucket_lifecycle
       request :get_bucket_location
       request :get_bucket_logging
+      request :get_bucket_notification
       request :get_bucket_object_versions
       request :get_bucket_policy
       request :get_bucket_versioning

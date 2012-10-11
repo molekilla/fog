@@ -14,12 +14,15 @@ module Fog
       collection  :files
       model       :file
 
-      request_path 'fog/google/requests/storage'
+      request_path 'fog/google/requests/storage' 
       request :copy_object
       request :delete_bucket
       request :delete_object
       request :get_bucket
+      
       request :get_bucket_acl
+      request :get_bucket_website
+      
       request :get_object
       request :get_object_acl
       request :get_object_torrent
