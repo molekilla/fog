@@ -19,10 +19,9 @@ module Fog
       request :delete_bucket
       request :delete_object
       request :get_bucket
-      
       request :get_bucket_acl
       request :get_bucket_website
-      
+      request :get_bucket_cors
       request :get_object
       request :get_object_acl
       request :get_object_torrent
@@ -246,7 +245,7 @@ DATA
           canonical_resource << "#{params[:path]}"
           canonical_resource << '?'
           for key in (params[:query] || {}).keys
-            if ['acl', 'location', 'logging', 'requestPayment', 'torrent', 'versions', 'versioning'].include?(key)
+            if ['acl', 'cors', 'location', 'logging', 'notification', 'requestPayment', 'torrent', 'versions', 'versioning', 'websiteConfig'].include?(key)
               canonical_resource << "#{key}&"
             end
           end

@@ -3,9 +3,9 @@ module Fog
     class Google
       class Real
 
-        require 'fog/google/parsers/storage/get_bucket_website'
+        require 'fog/google/parsers/storage/cors_config'
 
-        # Get bucket website for a Google Storage bucket
+        # Get bucket CORS for a Google Storage bucket
         #
         # ==== Parameters
         # * bucket_name<~String> - name of bucket to get website for
@@ -13,11 +13,17 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'WebsiteConfiguration'<~Hash>
-        #       * 'MainPageSuffix'<~String> - Main page for the bucket
-        #       * 'NotFoundPage'<~String> - Error page for bucket
+        #     * 'CorsConfig'<~Hash>  
+        #     * 'Cors'<~Hash>
+        #       * 'Origins'<~Hash>
+        #         * 'Origin'<~String> - The allowed cross origin resource sharing assigned to the bucket.
+        #       * 'Methods'<~Hash> - Container for one or more HTTP method elements
+        #         * 'Method'<~String> - Either GET, HEAD, PUT, POST or DELETE
+        #       * 'ResponseHeaders'<~Hash>
+        #         * 'ResponseHeader'<~String> - A response header that the use agent is permitted to share across origins.
+        #       * 'MaxAgeSec'<~Integer> - Maximum age in seconds
         #
-        def get_bucket_website(bucket_name)
+        def get_bucket_cors(bucket_name)
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
@@ -27,8 +33,8 @@ module Fog
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method     => 'GET',
-            :parser     => Fog::Parsers::Storage::Google::GetBucketWebsite.new,
-            :query      => {'websiteConfig' => nil}
+            :parser     => Fog::Parsers::Storage::Google::CORSConfig.new,
+            :query      => {'cors' => nil}
           })
         end
 
@@ -36,7 +42,7 @@ module Fog
 
       class Mock
 
-        # def get_bucket_website(bucket_name)
+        # def get_bucket_cors(bucket_name)
         #   response = Excon::Response.new
         #   if acl = self.data[:acls][:bucket][bucket_name]
         #     response.status = 200
